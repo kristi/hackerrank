@@ -9,19 +9,19 @@ import (
     "math"
 )
 
-func nChoose2(n int) int {
+func nChoose2(n int64) int64 {
     if n <= 1 { return 0 }
     return (n * (n-1)) / 2
 }
 
-func sumInt(x []int) (ans int) {
+func sumInt(x []int) (ans int64) {
     for _,v := range x {
-        ans += v
+        ans += int64(v)
     }
     return
 }
 
-func minInt(a, b int) int {
+func minInt(a, b int64) int64 {
     if a < b {
         return a
     }
@@ -35,8 +35,8 @@ func sum(x []float64) (ans float64) {
     return
 }
 
-func solve(nSwaps int, nReverses int, d []int) (ans float64) {
-    N := len(d)
+func solve(nSwaps int64, nReverses int64, d []int) (ans float64) {
+    N := int64(len(d))
 
     C := nChoose2(N)
     n := float64(N)
@@ -55,32 +55,34 @@ func solve(nSwaps int, nReverses int, d []int) (ans float64) {
 
     // Reverse
     d3 := make([]float64, N)
-    printArray(d2)
-    for r:=0; r<nReverses; r++ {
+    for r:=int64(0); r < nReverses; r++ {
         s := sum(d2)
-        for i,di := range d2 {
-            d3[i] = s - di + di * float64(nChoose2(i) + nChoose2(N-i-1))
+        for i := range d2 {
+            d3[i] = s
         }
-        for e:=1; e < N/2; e++ {
+        for e:=int64(1); e <= N/2; e++ {
             s -= d2[e-1]
             s -= d2[N-e]
             for i:=e; i<N-e; i++ {
                 d3[i] += s
             }
         }
-        if N % 2 == 1 {
-            d3[N/2] += d2[N/2]
+        for i,di := range d2 {
+            d3[i] += -di + di * float64(nChoose2(int64(i)) + nChoose2(N-int64(i)-1))
         }
         for i := range d3 {
             d3[i] /= c
         }
-        printArray(d3)
         copy(d2, d3)
     }
 
+    //DEBUG
+    d3 = d2
+
     // Sum
     for i,di := range d3 {
-        g := C - nChoose2(i) - nChoose2(N-i-1)
+        I := int64(i)
+        g := C - nChoose2(I) - nChoose2(N-I-1)
         ans += float64(g) * di
     }
 
@@ -96,8 +98,8 @@ func main() {
     for c:=0; c<cases; c++ {
         nab := input.ParseIntArray(3)
         n := nab[0]
-        a := nab[1]
-        b := nab[2]
+        a := int64(nab[1])
+        b := int64(nab[2])
         d := input.ParseIntArray(n)
 
         ans := solve(a,b,d)
@@ -106,7 +108,7 @@ func main() {
 }
 
 /* Prints an array without the brakets */
-func printArray(a []int) {
+func printSlice(a []int) {
     fmt.Println(strings.Trim(fmt.Sprint(a),"[]"))
 }
 
