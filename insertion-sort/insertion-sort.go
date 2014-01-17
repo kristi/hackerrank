@@ -8,6 +8,9 @@ import (
     "math/rand"
 )
 
+// Treap data structure
+//  - modified to count the number of nodes to the right when node is inserted
+
 type Node struct {
     value int
     size int
@@ -51,7 +54,6 @@ func (self *Node) insert(n *Node) (top *Node){
             self.left = self.left.insert(n)
         }
         if self.left.priority > self.priority {
-        //if self.left == n && rand.Intn(2) == 0 {
             top = self.rotateRight()
         }
     } else {
@@ -62,7 +64,6 @@ func (self *Node) insert(n *Node) (top *Node){
             self.right = self.right.insert(n)
         }
         if self.right.priority > self.priority {
-        //if self.right == n && rand.Intn(2) == 0 {
             top = self.rotateLeft()
         }
     }
