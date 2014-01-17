@@ -14,7 +14,8 @@ func solve(a []int) (ans int) {
 
 func main() {
     input := NewInputParser(os.Stdin)
-    cases := input.ParseInt()
+    cases := 0
+    input.Scan(&cases)
 
     for c:=0; c<cases; c++ {
         size := input.ParseInt()
@@ -46,13 +47,23 @@ func (in *InputParser) ParseString() string {
     return s
 }
 
-/* Parses a line of input as a single integer 
-   If there are multiple integers on the same line, this only returns
-   the first integer.
-*/
+/* Parses a single integer */
 func (in *InputParser) ParseInt() int {
     s := in.ParseString()
     i,err := strconv.Atoi(s)
+    if err != nil { panic(err) }
+    return i
+}
+
+/* Scan for variables (pass in pointers)
+    var a int
+    var b float
+    var c string
+    in.Scan(&a, &b, &c)
+*/
+func (in *InputParser) Scan(a ...interface{}) int {
+    s := in.ParseString()
+    i,err := fmt.Sscan(s, a...)
     if err != nil { panic(err) }
     return i
 }
