@@ -8,22 +8,19 @@ import (
     "strconv"
 )
 
-func solve(a []int) (ans int) {
+func solve(k int, a []int) (ans int) {
     return
 }
 
 func main() {
     input := NewInputParser(os.Stdin)
-    cases := 0
-    input.Scan(&cases)
+    var n,k int
 
-    for c:=0; c<cases; c++ {
-        size := input.ParseInt()
-        a := input.ParseIntArray(size)
+    input.Scan(&n, &k)
+    a := input.ParseIntArray(n)
 
-        n := solve(a)
-        fmt.Println(n)
-    }
+    ans := solve(k, a)
+    fmt.Println(ans)
 }
 
 /* Prints an array without the brakets */
@@ -42,7 +39,7 @@ func NewInputParser(rd io.Reader) *InputParser {
 /* Returns a single line of input (without the ending newline) */
 func (in *InputParser) ParseString() string {
     s,err := in.ReadString('\n')
-    if err != nil { panic(err) }
+    if err != nil && err != io.EOF { panic(err) }
     s = strings.TrimSpace(s)
     return s
 }
