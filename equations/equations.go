@@ -29,7 +29,7 @@ func factorizeFactorial(N int) (F []int) {
     primes := sieve(N)
     for _,p := range primes {
         f := 0
-        for d:=p; d<N; d*=p {
+        for d:=p; d<=N; d*=p {
             f += N/d
         }
         F = append(F, f)
